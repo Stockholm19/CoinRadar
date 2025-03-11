@@ -20,7 +20,7 @@ struct HomeView: View {
                 .ignoresSafeArea()
                 .sheet(isPresented: $showPortfolioView, content: {
                     NavigationView {
-                        PortfolioView()
+                        PortfolioView(isPresented: $showPortfolioView) // Передаем биндинг
                     }
                     .environmentObject(vm)
                 })

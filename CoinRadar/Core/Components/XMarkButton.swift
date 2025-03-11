@@ -8,19 +8,19 @@
 import SwiftUI
 
 struct XMarkButton: View {
-    
-    @Environment(\.dismiss) private var dismiss
-    
+    @Binding var isPresented: Bool
+
     var body: some View {
-            Button(action: {
-                dismiss()
-            }, label: {
-                Image(systemName: "xmark")
-                    .font(.headline)
-            })
+        Button(action: {
+            isPresented = false
+        }) {
+            Image(systemName: "xmark")
+                .font(.headline)
+                .foregroundColor(Color.theme.accent)
         }
+    }
 }
 
 #Preview {
-    XMarkButton()
+    XMarkButton(isPresented: .constant(false))
 }

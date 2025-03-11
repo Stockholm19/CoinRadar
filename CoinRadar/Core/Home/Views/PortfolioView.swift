@@ -12,12 +12,13 @@ import SwiftUI
 struct PortfolioView: View {
     
     @EnvironmentObject private var vm: HomeViewModel
+    @Binding var isPresented: Bool
     @State private var selectedCoin: CoinModel? = nil
     @State private var quantityText: String = ""
     @State private var showCheckMark: Bool = false
     
     var body: some View {
-        VStack(spacing: 0) { // Убрали NavigationView
+        VStack(spacing: 0) {
             SearchBarView(searchText: $vm.searchText)
             coinLogoList
             portfolioInputSection
@@ -27,7 +28,7 @@ struct PortfolioView: View {
         .navigationTitle("Edit Portfolio")
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
-                XMarkButton()
+                XMarkButton(isPresented: $isPresented)
             }
             ToolbarItem(placement: .navigationBarTrailing) {
                 trailingNavBarButtons
@@ -38,8 +39,8 @@ struct PortfolioView: View {
 }
 
 #Preview {
-    NavigationView { // Добавляем NavigationView только в предпросмотре
-        PortfolioView()
+    NavigationView {
+        PortfolioView(isPresented: .constant(false))
             .environmentObject(dev.homeVM)
     }
 }
