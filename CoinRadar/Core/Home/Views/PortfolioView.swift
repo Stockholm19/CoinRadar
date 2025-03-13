@@ -50,12 +50,12 @@ extension PortfolioView {
     private var coinLogoList: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             LazyHStack(spacing: 10) {
-                ForEach(vm.allCoins) { coin in
+                ForEach(vm.searchText.isEmpty ? vm.portfolioCoins : vm.allCoins) { coin in
                     CoinLogoView(coin: coin)
                         .frame(width: 75)
                         .onTapGesture {
                             withAnimation(.easeIn) {
-                                selectedCoin = (selectedCoin?.id == coin.id) ? nil : coin
+                                updateSelectedCoin(coin: coin)
                             }
                         }
                         .background(
@@ -66,6 +66,17 @@ extension PortfolioView {
             }
             .frame(height: 120)
             .padding(.leading)
+        }
+    }
+    
+    private func updateSelectedCoin(coin: CoinModel) {
+        selectedCoin = coin
+        
+        if let portfolioCoin = vm.portfolioCoins.first(where: { $0.id == coin.id }),
+              let amount = portfolioCoin.currentHoldings {
+                quantityText = "\(amount)"
+        } else {
+            quantityText = ""
         }
     }
     
@@ -97,6 +108,11 @@ extension PortfolioView {
                     .multilineTextAlignment(.trailing)
                     .frame(width: 80)
                     .keyboardType(.decimalPad)
+                    .onChange(of: quantityText) {
+                        quantityText = quantityText.replacingOccurrences(of: ",", with: ".")
+                    }
+                    .textInputAutocapitalization(.never)
+                    .disableAutocorrection(true)
             }
             Divider()
             HStack {
@@ -117,12 +133,12 @@ extension PortfolioView {
                 .opacity(showCheckMark ? 1.0 : 0.0)
             
             Button(action: {
-                
+                saveButtonPressed()
             }, label: {
                 Text("Save".uppercased())
             })
             .opacity(
-                (selectedCoin != nil && selectedCoin?.currentHoldings != Double(quantityText)) ?
+                (selectedCoin != nil && selectedCoin?.currentHoldings ?? 0 != Double(quantityText) ?? 0) ?
                 1.0 : 0.0
             )
         }
@@ -131,10 +147,12 @@ extension PortfolioView {
     
     private func saveButtonPressed() {
         
-        guard let coin = selectedCoin else { return }
+        guard let coin = selectedCoin,
+        let amount = Double(quantityText)
+        else { return }
         
         // Save to portfolio
-        
+        vm.updatePortfolio(coin: coin, amount: amount)
         
         // Show checkmark
         withAnimation(.easeInOut) {
