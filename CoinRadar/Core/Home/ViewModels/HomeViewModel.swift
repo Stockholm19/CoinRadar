@@ -43,15 +43,6 @@ class HomeViewModel: ObservableObject {
             }
             .store(in: &cancellables)
         
-        // ipdate marketData
-        marketDataService.$marketData
-            .map(mapGlobalMarketData)
-            
-            .sink { [weak self] returnedStats in
-                self?.statistics = returnedStats
-            }
-            .store(in: &cancellables)
-        
         // update portfolioCoins
         $allCoins
             .combineLatest(portfolioDataService.$savedEntities)
@@ -67,6 +58,15 @@ class HomeViewModel: ObservableObject {
             }
             .sink { [weak self] (returnedCoins) in
                 self?.portfolioCoins = returnedCoins
+            }
+            .store(in: &cancellables)
+        
+        // ipdate marketData
+        marketDataService.$marketData
+            .combineLatest($portfolioCoins)
+            .map(mapGlobalMarketData)
+            .sink { [weak self] returnedStats in
+                self?.statistics = returnedStats
             }
             .store(in: &cancellables)
     }
@@ -87,7 +87,7 @@ class HomeViewModel: ObservableObject {
         }
     }
     
-    private func mapGlobalMarketData(marketDataModel: MarketDataModel?) -> [StatisticModel] {
+    private func mapGlobalMarketData(marketDataModel: MarketDataModel?, portfolioCoins: [CoinModel]) -> [StatisticModel] {
         var stats: [StatisticModel] = []
         
         guard let data = marketDataModel else {
@@ -107,9 +107,14 @@ class HomeViewModel: ObservableObject {
             title: "BTC Dominance",
             value: data.btcDominance)
         
+        let portfolioValue =
+            portfolioCoins
+                .map({ $0.currentHoldingsValue })
+                .reduce(0, +)
+        
         let portfolio = StatisticModel(
             title: "Portfolio Value",
-            value: "$0.00",
+            value: portfolioValue.asCurrencyWith2Decimals(),
             percentageChange: 0)
         
         stats.append(contentsOf: [
