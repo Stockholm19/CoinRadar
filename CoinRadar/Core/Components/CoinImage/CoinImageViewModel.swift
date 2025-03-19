@@ -28,7 +28,7 @@ class CoinImageViewModel: ObservableObject {
     private func addSubscribers() {
         
         dataService.$image
-            .receive(on: DispatchQueue.main) // ✅ Обновляем UI в главном потоке
+            .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
                 guard let self = self else { return }
                 self.isLoading = false

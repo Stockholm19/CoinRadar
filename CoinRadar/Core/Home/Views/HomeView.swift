@@ -71,7 +71,7 @@ extension HomeView {
                     }
                 }
                 .background(
-                    CircleButtonAnimationView(animate: $showPortfolio)
+                    CircleButtonAnimationView()
                 )
             Spacer()
             Text(showPortfolio ? "Portfolio" : "Live Prices")
@@ -95,8 +95,12 @@ extension HomeView {
     private var allCoinsList: some View {
         List {
             ForEach(vm.allCoins) { coin in
-                CoinRowView(coin: coin, showHoldingsColumn: false)
-                .listRowInsets(EdgeInsets(top: 10, leading: 0, bottom: 10, trailing: 10))
+                NavigationLink(
+                    destination: DetailView(coin: coin),
+                    label: {
+                        CoinRowView(coin: coin, showHoldingsColumn: false)
+                        .listRowInsets(EdgeInsets(top: 10, leading: 0, bottom: 10, trailing: 10))
+                    })
             }
         }
         .listStyle(PlainListStyle())
