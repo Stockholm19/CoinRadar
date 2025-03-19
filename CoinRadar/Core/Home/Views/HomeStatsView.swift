@@ -22,6 +22,7 @@ struct HomeStatsView: View {
         .frame(width: UIScreen.main.bounds.width,
                alignment: showPortfolio ? .trailing : .leading)
     }
+    
 }
 
 #Preview {
