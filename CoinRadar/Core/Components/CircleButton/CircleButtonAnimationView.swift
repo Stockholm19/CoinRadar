@@ -18,7 +18,6 @@ struct CircleButtonAnimationView: View {
             .opacity(animateCircle ? 0.0 : 1.0)
             .animation(.easeOut(duration: 1.0), value: animateCircle)
             .onAppear {
-                // При первом появлении вью анимируем
                 animateCircle = true
             }
     }
