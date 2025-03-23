@@ -54,6 +54,7 @@ class CoinImageService {
                 }
                 return image
             }
+            .receive(on: DispatchQueue.main)
             .sink(receiveCompletion: { completion in
             switch completion {
             case .finished:
