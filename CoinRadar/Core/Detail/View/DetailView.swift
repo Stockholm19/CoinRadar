@@ -25,33 +25,36 @@ struct DetailView: View {
     }
     
     var body: some View {
-        ScrollView {
+        ZStack {
             
-            VStack {
-                ChartView(coin: vm.coin)
-                    .padding(.vertical)
-                VStack(spacing: 20.0) {
-                    
-                    overviewTitle
-                    Divider()
-                    descriptionSection
-                    overviewGrid
-                    additionalTitle
-                    Divider()
-                    additionalGrid
-                    websiteSection
-                    
-                    
+            Color.theme.background
+                .ignoresSafeArea()
+            
+            ScrollView {
+                
+                VStack {
+                    ChartView(coin: vm.coin)
+                        .padding(.vertical)
+                    VStack(spacing: 20.0) {
+                        
+                        overviewTitle
+                        Divider()
+                        descriptionSection
+                        overviewGrid
+                        additionalTitle
+                        Divider()
+                        additionalGrid
+                        websiteSection
+                        
+                    }
+                    .padding()
                 }
-                .padding()
             }
-            
-            
-        }
-        .navigationTitle(vm.coin.name ?? "")
-        .toolbar{
-            ToolbarItem(placement: .navigationBarTrailing) {
-                navigitionBarTrailingItems
+            .navigationTitle(vm.coin.name ?? "")
+            .toolbar{
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    navigitionBarTrailingItems
+                }
             }
         }
     }

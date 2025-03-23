@@ -24,7 +24,7 @@ struct PortfolioView: View {
             portfolioInputSection
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
-        .background(Color(.systemBackground).ignoresSafeArea())
+        .background(Color.theme.background.ignoresSafeArea())
         .navigationTitle("Edit Portfolio")
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {

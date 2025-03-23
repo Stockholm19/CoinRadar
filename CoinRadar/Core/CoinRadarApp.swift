@@ -16,6 +16,8 @@ struct CoinRadarApp: App {
     init() {
         UINavigationBar.appearance().largeTitleTextAttributes = [.foregroundColor: UIColor(Color.theme.accent)]
         UINavigationBar.appearance().titleTextAttributes = [.foregroundColor: UIColor(Color.theme.accent)]
+        UINavigationBar.appearance().tintColor = UIColor(Color.theme.accent)
+        UINavigationBar.appearance().backgroundColor = UIColor(Color.theme.background)
     }
     
     var body: some Scene {

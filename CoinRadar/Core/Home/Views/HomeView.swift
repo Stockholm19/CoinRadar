@@ -106,6 +106,7 @@ extension HomeView {
                         showPortfolio.toggle()
                     }
                 }
+                .listRowBackground(Color.clear)
         }
         .padding(.horizontal)
     }
@@ -116,8 +117,11 @@ extension HomeView {
                 CoinRowView(coin: coin, showHoldingsColumn: false)
                     .listRowInsets(EdgeInsets(top: 10, leading: 0, bottom: 10, trailing: 10))
             }
+            .listRowBackground(Color.theme.background)
         }
-        .listStyle(PlainListStyle())
+        .listStyle(.plain)
+        .scrollContentBackground(.hidden)
+        .background(Color.theme.background)
     }
     
     private var portfolioEmptyText: some View {
@@ -133,10 +137,13 @@ extension HomeView {
         List {
             ForEach(vm.portfolioCoins) { coin in
                 CoinRowView(coin: coin, showHoldingsColumn: true)
-                .listRowInsets(EdgeInsets(top: 10, leading: 0, bottom: 10, trailing: 10))
+                    .listRowInsets(EdgeInsets(top: 10, leading: 0, bottom: 10, trailing: 10))
+                    .listRowBackground(Color.theme.background)
             }
         }
-        .listStyle(PlainListStyle())
+        .listStyle(.plain)
+        .scrollContentBackground(.hidden)
+        .background(Color.theme.background)
     }
     
     private var columnTitles: some View {

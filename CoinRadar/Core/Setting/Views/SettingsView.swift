@@ -21,19 +21,30 @@ struct SettingsView: View {
     
     var body: some View {
         NavigationStack {
-            List {
-                appInfoSection
-                coinGeckoSection
-                developerSection
-                applicationSection
+            ZStack {
+                // background layer
+                Color.theme.background
+                    .ignoresSafeArea()
+                
+                // content layer
+                List {
+                    appInfoSection
+                        .listRowBackground(Color.theme.cardBackground)
+                    coinGeckoSection
+                        .listRowBackground(Color.theme.cardBackground)
+                    developerSection
+                        .listRowBackground(Color.theme.cardBackground)
+                    applicationSection
+                        .listRowBackground(Color.theme.cardBackground)
+                }
+                .scrollContentBackground(.hidden)
+                .background(Color.theme.background)
             }
-            .listStyle(GroupedListStyle())
             .navigationTitle("Settings")
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     XMarkButton(isPresented: $isPresented)
                 }
-                
             }
         }
     }
