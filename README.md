@@ -1,4 +1,4 @@
-# CoinRadar ₿
+# Crypto Tracker ₿
 
 [![Swift](https://img.shields.io/badge/Swift-5.9-orange.svg)](https://swift.org)
 [![Platform](https://img.shields.io/badge/Platform-iOS16+-blue.svg)](https://developer.apple.com/ios/)
